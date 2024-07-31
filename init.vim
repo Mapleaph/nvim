@@ -19,13 +19,14 @@ Plug 'fladson/vim-kitty'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'MunifTanjim/nui.nvim'
-Plug 'jackMort/ChatGPT.nvim'
+"Plug 'jackMort/ChatGPT.nvim'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 call plug#end()
 
-lua <<EOF
--- chat gpt
-require("chatgpt").setup()
-EOF
+"lua <<EOF
+"-- chat gpt
+"require("chatgpt").setup()
+"EOF
 
 map <silent> <C-n> :NERDTreeFocus<CR>
 
