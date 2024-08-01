@@ -10,7 +10,6 @@ Plug 'benmills/vimux'
 Plug 'danilo-augusto/vim-afterglow'
 Plug 'dracula/vim'
 Plug 'vimwiki/vimwiki'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'vim-syntastic/syntastic'
 Plug 'sbdchd/neoformat'
 Plug 'pangloss/vim-javascript'
@@ -19,7 +18,6 @@ Plug 'fladson/vim-kitty'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'MunifTanjim/nui.nvim'
-"Plug 'jackMort/ChatGPT.nvim'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 call plug#end()
 
@@ -369,7 +367,7 @@ function! Marked2()
 endfunction
 
 " matchit
-packadd! matchit
+"packadd! matchit
 
 " move current line up/down by line(s)
 nnoremap [e  :<c-u>execute 'move -1-'. v:count1<cr>
@@ -423,10 +421,6 @@ set omnifunc=syntaxcomplete#Complete
 let &termencoding=&encoding
 set fileencodings=utf-8,gbk
 
-" coc
-" 太长的更新间隔会导致明显的延迟并降低使用者体验（预设是 4000 ms = 4s ）
-set updatetime=300
-
 " 永远显示 signcolumn（行号左边那个，这我不知道怎麽翻），否则每当有诊断出来时整个程序码就会被往右移
 if has("nvim-0.5.0") || has("patch-8.1.1564")
   " 新的版本可以把 signcolumn 和行号合并（这个我版本不够没看过，有人知道会长怎样可以下面留言吗？）
@@ -434,34 +428,9 @@ if has("nvim-0.5.0") || has("patch-8.1.1564")
 else
   set signcolumn=yes
 endif
-" 用 tab 键触发自动补全
-" 注意：载入设定後记得用命令 `verbose imap <tab>` 确定这没有被其他外挂覆盖掉
-inoremap <silent><expr> <TAB>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<TAB>" :
-    \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
-
-" 让 enter 键自动完成第一个建议并让 coc 进行格式化（不确定个格式化指的是什麽，我看不太出来）
-" enter 可以被重复 keymap（看不懂就算了，意思是你乱搞不会出错）
-inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm()
-    \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-" 用 \rn 重新命名变数、函数（原文写「符号」）
-nmap <leader>rn <Plug>(coc-rename)
-
-" 这个让你可以卷动浮动视窗和跳出式框框（有时候自动补全给你的文件会太长超出萤幕，如果你想要看下面的内容必须设定这个）
-if has('nvim-0.4.0') || has('patch-8.2.0750')
-  nnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  nnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-  inoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<Right>"
-  inoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<Left>"
-  vnoremap <silent><nowait><expr> <C-f> coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-f>"
-  vnoremap <silent><nowait><expr> <C-b> coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-b>"
-endif
 
